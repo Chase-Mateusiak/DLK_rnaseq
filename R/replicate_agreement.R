@@ -1,5 +1,6 @@
 library(DESeq2)
 library(here)
+library(ggplot2)
 library(patchwork)
 
 
@@ -15,23 +16,27 @@ pcaData <- plotPCA(vsd,
 
 percentVar <- round(100 * attr(pcaData, "percentVar"))
 
-by_researcher = ggplot(pcaData, aes(PC1, PC2, color=pretreatment, shape=treatment)) +
+by_researcher = ggplot(pcaData, aes(PC1, PC2,
+                                    color=treatment,
+                                    shape=pretreatment)) +
   geom_point(size=7) +
   xlab(paste0("PC1: ",percentVar[1],"% variance")) +
   ylab(paste0("PC2: ",percentVar[2],"% variance")) +
   coord_fixed() +
-  scale_color_manual(values = c("#6B1AA1", "#A13D03"))+
+  # scale_color_manual(values = c("pink", "green"))+
   theme_bw(base_size = 20) +
   theme(strip.background =element_rect(fill="black"),
         strip.text = element_text(colour = 'white'))+
   facet_wrap(~researcher)
 
-all_pca = ggplot(pcaData, aes(PC1, PC2, color=pretreatment, shape=treatment)) +
+all_pca = ggplot(pcaData, aes(PC1, PC2,
+                              color=treatment,
+                              shape=pretreatment)) +
   geom_point(size=7) +
   xlab(paste0("PC1: ",percentVar[1],"% variance")) +
   ylab(paste0("PC2: ",percentVar[2],"% variance")) +
   coord_fixed() +
-  scale_color_manual(values = c("#6B1AA1", "#A13D03"))+
+  # scale_color_manual(values = c("pink", "green"))+
   theme_bw(base_size = 20) +
   theme(strip.background =element_rect(fill="black"),
         strip.text = element_text(colour = 'white'))
